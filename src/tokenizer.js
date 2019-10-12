@@ -14,20 +14,30 @@ class Tokenizer {
       } else if (this.isDecimalPoint(ch)) {
         numBuff.push(ch);
       } else if (this.isOperator(ch)) {
-        leftParBuff.forEach(x => tokens.push(x));
-        leftParBuff = [];
-        tokens.push(numBuff.join(''));
-        numBuff = [];
+        if (leftParBuff.length > 0) {
+          leftParBuff.forEach(x => tokens.push(x));
+          leftParBuff = [];
+        }
+        if (numBuff.length > 0) {
+          tokens.push(numBuff.join(''));
+          numBuff = [];
+        }
         tokens.push(ch);
       } else if (this.isLeftParenthesis(ch)) {
-        tokens.push(numBuff.join(''));
-        numBuff = [];
+        if (numBuff.length > 0) {
+          tokens.push(numBuff.join(''));
+          numBuff = [];
+        }
         tokens.push(ch);
       } else if (this.isRightParenthesis(ch)) {
-        tokens.push(numBuff.join(''));
-        numBuff = [];
-        leftParBuff.forEach(x => tokens.push(x));
-        leftParBuff = [];
+        if (numBuff.length > 0) {
+          tokens.push(numBuff.join(''));
+          numBuff = [];
+        }
+        if (leftParBuff.length > 0) {
+          leftParBuff.forEach(x => tokens.push(x));
+          leftParBuff = [];
+        }
         tokens.push(ch);
       }
     });
