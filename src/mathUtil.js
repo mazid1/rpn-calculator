@@ -11,7 +11,8 @@ class MathUtil {
           throw new Error('Division by zero occurred!');
         }
         return a / b;
-      }
+      },
+      '^': (a, b) => Math.pow(a, b)
     };
   }
 
