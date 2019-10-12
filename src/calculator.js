@@ -1,10 +1,14 @@
 'use strict';
 const MathUtil = require('./mathUtil');
+const Tokenizer = require('./tokenizer');
+const getPostfix = require('./postfixGenerator');
 
 class Calculator {
   calculate(exp) {
     try {
-      return this.calculatePostfix(exp);
+      const tokens = Tokenizer.tokenize(exp);
+      const postfix = getPostfix(tokens);
+      return this.calculatePostfix(postfix);
     } catch (e) {
       return e;
     }
