@@ -24,6 +24,6 @@ module.exports = function getPostfix(exp) {
       }
     }
   });
-  console.error(postfix);
+
   return postfix.join(' ');
 };
