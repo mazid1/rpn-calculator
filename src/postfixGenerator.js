@@ -6,14 +6,22 @@ module.exports = function getPostfix(exp) {
   exp.unshift('(');
   exp.push(')');
 
-  let postfix = [];
-  let opStack = [];
+  const postfix = [];
+  const opStack = [];
 
   exp.forEach(token => {
     if (MathUtil.isNumber(token)) {
       postfix.push(token);
     } else if (MathUtil.isOperator(token)) {
-      opStack.push(token);
+      if (opStack.length === 0 || opStack[opStack.length - 1] === '(') {
+        opStack.push(token);
+      } else {
+        for (let i = opStack.length - 1;
+             i >= 0 && opStack[i] !== '(' && MathUtil.inStackPrecedence[opStack[i]] > MathUtil.outStackPrecedence[token]; i--) {
+          postfix.push(opStack.pop());
+        }
+        opStack.push(token);
+      }
     } else if (token === '(') {
       opStack.push(token);
     } else if (token === ')') {
@@ -24,6 +32,10 @@ module.exports = function getPostfix(exp) {
       }
     }
   });
+
+  while (opStack.length > 0) {
+    postfix.push(opStack.pop());
+  }
 
   return postfix.join(' ');
 };

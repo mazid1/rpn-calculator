@@ -14,6 +14,24 @@ class MathUtil {
       },
       '^': (a, b) => Math.pow(a, b)
     };
+
+    this.inStackPrecedence = {
+      '+': 2,
+      '-': 2,
+      '*': 4,
+      '/': 4,
+      '^': 5,
+      '(': 10
+    };
+
+    this.outStackPrecedence = {
+      '+': 1,
+      '-': 1,
+      '*': 3,
+      '/': 3,
+      '^': 6,
+      '(': 0
+    };
   }
 
   operate(operator, a, b) {
